@@ -23,6 +23,15 @@ function App() {
       alert('Something went wrong, please try after sometime.');
     })
   }
+  function randomAsteroids() {
+    fetch(`${apiUrl}browse?api_key=${apiKey}`).then((resp) => {
+      return resp.json();
+    }).then((response) => {
+      console.log(response, 'response');
+    }).catch(err => {
+      alert('Something went wrong, please try after sometime.');
+    })
+  }
   return (
     <div className="App">
       <div className='headingStyle'>Enter Asteroid ID - eg please enter this id - 3726710</div>
@@ -30,6 +39,9 @@ function App() {
       <div>
         <input className='inputClassStyle' name='asteroidId' type='text' placeholder='Enter Asteroid ID' value={asteroid} onChange={changeAsteroidId} />
         <button className='submitFormBtn' type='button' onClick={submitForm} disabled={asteroid === '' ? true : false}>Submit</button>
+      </div>
+      <div className='randomButtonDiv'>
+        <button className='submitRandomBtn' type='button' onClick={randomAsteroids}>Random Asteroid</button>
       </div>
     </div>
   );
