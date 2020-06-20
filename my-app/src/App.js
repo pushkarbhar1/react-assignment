@@ -27,8 +27,23 @@ function App() {
     fetch(`${apiUrl}browse?api_key=${apiKey}`).then((resp) => {
       return resp.json();
     }).then((response) => {
-      console.log(response, 'response');
+      const arryList = response && response.near_earth_objects && response.near_earth_objects.length > 0 ? response.near_earth_objects.map((v, i) => {
+        return v.id;
+      }) : [];
+      const randomValue = arryList[(Math.floor(Math.random() * 6) + 1)];
+      fetch(`${apiUrl}${randomValue}?api_key=${apiKey}`).then((resp) => {
+        return resp.json();
+      }).then((response) => {
+        history.push('user-info', {
+          name: response.name,
+          nasa_jpl_url: response.nasa_jpl_url,
+          is_potentially_hazardous_asteroid: response.is_potentially_hazardous_asteroid
+        })
+      }).catch(err => {
+        alert('Something went wrong, please try after sometime.');
+      })
     }).catch(err => {
+      console.log(err)
       alert('Something went wrong, please try after sometime.');
     })
   }
